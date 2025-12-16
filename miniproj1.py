@@ -30,6 +30,7 @@ price_column = 'Price (Euro)'
 company_column = 'Company'
 os_column = 'OpSys'
 ram_column = 'RAM (GB)'
+memory_column = 'Memory'
 
 # Plot a histogram of all the prices
 plot_column_histogram(laptop_data, price_column, price_column, 'Price Distribution')
@@ -93,3 +94,13 @@ price_outliers = detect_iqr_outliers(laptop_data, price_column)
 
 print('Price outliers:')
 print(price_outliers)
+
+# Create a new column with storage types by a regex filtering the memory size out
+# If there are several memory types, join them together
+laptop_data['Storage type'] = (
+    laptop_data[memory_column]
+    .str.extractall(r'\d+\s*(?:GB|TB)\s*([A-Za-z ]+)')[0]
+    .str.strip()
+    .groupby(level=0)
+    .agg(' + '.join)                                       
+)
