@@ -1,5 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+import seaborn as sns
 
 # Plot a histogram of one column distribution
 def plot_column_histogram(dataset, column_name, axes_name, plot_name):
@@ -42,3 +43,13 @@ unique_os = laptop_data['UniformOpSys'].unique()
 
 print('Operating system types:')
 print(*unique_os, sep='\n')
+
+# Plot price distributions for each OS type
+# Create a seperate histogram of the prices for each OS type 
+subplots_grid = sns.FacetGrid(laptop_data, col='UniformOpSys', col_wrap=3, sharex=False)
+subplots_grid.map_dataframe(sns.histplot, x=price_column, color="skyblue", edgecolor="black")
+subplots_grid.set_axis_labels(price_column, 'Count')
+subplots_grid.set_titles('Price Distribution for {col_name}')
+plt.tight_layout()
+plt.show()
+
