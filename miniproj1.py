@@ -104,3 +104,6 @@ laptop_data['Storage type'] = (
     .groupby(level=0)
     .agg(' + '.join)                                       
 )
+
+print("Storage Types:")
+print(*laptop_data['Storage type'].unique(), sep='\n')
